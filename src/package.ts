@@ -1476,7 +1476,7 @@ function collectFiles(
 	ignoreFile?: string
 ): Promise<string[]> {
 	return collectAllFiles(cwd, dependencies, dependencyEntryPoints).then(files => {
-		files = files.filter(f => !/\r$/m.test(f));
+		files = files.filter((f, idx, arr) => !/\r$/m.test(f) && arr.indexOf(f) === idx);
 
 		return (
 			fs.promises
