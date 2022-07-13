@@ -1750,6 +1750,10 @@ export async function listFiles(options: IListFilesOptions = {}): Promise<string
  * Lists the files included in the extension's package. Runs prepublish.
  */
 export async function ls(options: IListFilesOptions = {}): Promise<void> {
+	const cwd = options.cwd || process.cwd();
+	const manifest = await readManifest(cwd);
+	util.patchOptionsWithManifest(options, manifest);
+
 	const files = await listFiles({ ...options, prepublish: true });
 
 	for (const file of files) {
